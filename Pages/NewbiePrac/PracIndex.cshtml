@@ -1,0 +1,70 @@
+@page
+@model test.Pages.NewbiePrac.Index
+@using System.Reflection
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div id="container" style="height: 500px"></div>
+
+@section Scripts {
+    <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <script type="text/javascript">
+
+        function drawBar ( data ) {
+            console.log(data);
+            var dom = document.getElementById('container');
+            var myChart = echarts.init(dom);
+            var option;
+
+            var xAxisData = [], yAxisData = [];
+            data.forEach(function(value){
+               xAxisData.push(value["DeptNm"]);
+               yAxisData.push(value["DeptNmCount"])
+            });
+
+            option = {
+                xAxis: {
+                    type: 'category',
+                    data: xAxisData// ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+                },
+                yAxis: {
+                    type: 'value'
+                },
+                series: [
+                    {
+                        data: yAxisData, // [120, 200, 150, 80, 70, 110, 130],
+                        type: 'bar',
+                        showBackground: true,
+                        backgroundStyle: {
+                            color: 'rgba(180, 180, 180, 0.2)'
+                        }
+                    }
+                ]
+            };
+
+            option && myChart.setOption(option);
+        }
+
+        /* Get data */
+        function getData() {
+            return new Promise( function(resolve, reject) {
+                $.ajax({
+                    type: "GET",
+                    url: location.pathname + '?handler=Query',
+                    contentType: "application/json",
+                    success: function( data ) {
+                        resolve(data);
+                    }
+                });
+            });
+        }
+
+        getData().then( function(data) { 
+            drawBar(data.data);
+        });
+
+    </script>
+}

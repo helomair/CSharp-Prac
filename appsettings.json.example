@@ -1,0 +1,14 @@
+{
+  "ConnectionStrings": {
+    "SqlConnection": "Server=DESKTOP-5LAAITF\\SQLEXPRESS;Database=Practice;Persist Security Info=True;User ID=****;Password=****"
+
+  },
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft": "Warning",
+      "Microsoft.Hosting.Lifetime": "Information"
+    }
+  },
+  "AllowedHosts": "*"
+}
